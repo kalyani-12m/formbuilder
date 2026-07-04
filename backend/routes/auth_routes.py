@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from auth import register_user, login_user
+from utils.storage import load_users, save_users
 
 auth_bp = Blueprint("auth", __name__)
 
@@ -8,12 +8,33 @@ auth_bp = Blueprint("auth", __name__)
 def register():
     data = request.json
 
-    user = register_user(data["username"], data["password"])
+    users = load_users()
 
-    if not user:
-        return jsonify({"error": "User already exists"}), 400
+    # check existing email
+    existing = next(
+        (u for u in users if u["email"] == data.get("email")),
+        None
+    )
 
-    return jsonify({"message": "User registered", "user": user})
+    if existing:
+        return jsonify({"error": "Email already exists"}), 400
+
+    user = {
+        "id": len(users) + 1,
+        "email": data.get("email"),
+        "password": data.get("password")  # simple version
+    }
+
+    users.append(user)
+    save_users(users)
+
+    return jsonify({
+        "message": "User registered successfully",
+        "user": {
+            "id": user["id"],
+            "email": user["email"]
+        }
+    })
 
 
 # LOGIN
@@ -21,9 +42,21 @@ def register():
 def login():
     data = request.json
 
-    token = login_user(data["username"], data["password"])
+    users = load_users()
 
-    if not token:
-        return jsonify({"error": "Invalid credentials"}), 401
+    user = next(
+        (u for u in users if u["email"] == data.get("email")
+         and u["password"] == data.get("password")),
+        None
+    )
 
-    return jsonify({"message": "Login success", "token": token})
+    if not user:
+        return jsonify({"error": "Invalid email or password"}), 401
+
+    return jsonify({
+        "message": "Login successful",
+        "user": {
+            "id": user["id"],
+            "email": user["email"]
+        }
+    })

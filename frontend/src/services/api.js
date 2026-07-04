@@ -23,20 +23,19 @@ async function request(url, options) {
 
 // REGISTER
 export const registerUser = (data) => {
-  return request(`${BASE}/auth/register`, {
+  return fetch("http://127.0.0.1:5000/api/auth/register", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
-  });
+  }).then(res => res.json());
 };
 
-// LOGIN
 export const loginUser = (data) => {
-  return request(`${BASE}/auth/login`, {
+  return fetch("http://127.0.0.1:5000/api/auth/login", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
-  });
+  }).then(res => res.json());
 };
 export const createForm = async (data) => {
   try {

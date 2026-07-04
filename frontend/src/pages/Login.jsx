@@ -3,37 +3,32 @@ import { loginUser } from "../services/api";
 import "../styles/auth.css";
 
 export default function Login({ onLogin, onSwitch }) {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleLogin = async () => {
-    try {
-      const res = await loginUser({ username, password });
+  const res = await loginUser({
+    email,
+    password,
+  });
 
-      if (res?.token) {
-        localStorage.setItem("token", res.token);
-
-        alert("Login successful!");
-
-        if (onLogin) onLogin(res.token);
-      } else {
-        alert(res?.error || "Login failed");
-      }
-    } catch (err) {
-      alert("Server error");
-      console.log(err);
-    }
-  };
+  if (res.user) {
+    localStorage.setItem("user", JSON.stringify(res.user));
+    alert("Login successful!");
+    onLogin(res.user);
+  } else {
+    alert(res.error);
+  }
+};
 
   return (
     <div className="auth-container">
       <h2>Login</h2>
 
       <input
-        value={username}
-        placeholder="Username"
-        onChange={(e) => setUsername(e.target.value)}
-      />
+  placeholder="Email"
+  onChange={(e) => setEmail(e.target.value)}
+/>
 
       <input
         value={password}

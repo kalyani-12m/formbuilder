@@ -3,35 +3,26 @@ import { registerUser } from "../services/api";
 import "../styles/auth.css";
 
 export default function Register({ onSwitch }) {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleRegister = async () => {
-    try {
-      const res = await registerUser({ username, password });
+  const res = await registerUser({
+    email,
+    password,
+  });
 
-      if (res?.error) {
-        alert(res.error);
-        return;
-      }
-
-      alert("Registered successfully!");
-
-      if (onSwitch) onSwitch(); // SAFE CALL
-    } catch (err) {
-      alert("Server error");
-      console.log(err);
-    }
-  };
+  if (res.error) alert(res.error);
+  else alert("Registered successfully!");
+};
 
   return (
     <div className="auth-container">
       <h2>Register</h2>
 
       <input
-        value={username}
-        placeholder="Username"
-        onChange={(e) => setUsername(e.target.value)}
+        placeholder="Email"
+        onChange={(e) => setEmail(e.target.value)}
       />
 
       <input

@@ -1,0 +1,27 @@
+[
+    {
+        "id": 1,
+        "title": "My Form",
+        "fields": [
+            {
+                "id": 1783154298994,
+                "type": "text",
+                "label": "name",
+                "placeholder": "Enter your answer",
+                "required": false,
+                "options": []
+            },
+            {
+                "id": 1783154310201,
+                "type": "radio",
+                "label": "age",
+                "placeholder": "Enter your answer",
+                "required": false,
+                "options": [
+                    "<18",
+                    ">18"
+                ]
+            }
+        ]
+    }
+]
