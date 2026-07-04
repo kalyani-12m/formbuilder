@@ -23,5 +23,30 @@
                 ]
             }
         ]
+    },
+    {
+        "id": 2,
+        "title": "My Form",
+        "fields": [
+            {
+                "id": 1783154562969,
+                "type": "text",
+                "label": "enter your name",
+                "placeholder": "Enter your answer",
+                "required": false,
+                "options": []
+            },
+            {
+                "id": 1783154583073,
+                "type": "dropdown",
+                "label": "gender",
+                "placeholder": "Enter your answer",
+                "required": false,
+                "options": [
+                    "male",
+                    "female"
+                ]
+            }
+        ]
     }
 ]
